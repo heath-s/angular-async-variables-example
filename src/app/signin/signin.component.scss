@@ -1,0 +1,29 @@
+@import "../../styles/theme";
+
+form {
+  background-color: $black-6-opacity;
+  height: 100%;
+  width: 100%;
+}
+
+.signin-card {
+  max-width: 360px;
+  min-width: 240px;
+  width: 50vw;
+
+  mat-card-header {
+    height: 48px;
+    margin-bottom: 16px;
+
+    mat-card-title {
+      margin-bottom: 0;
+    }
+  }
+
+  mat-card-content {
+    .progress-bar {
+      height: 4px;
+      margin-top: 16px;
+    }
+  }
+}

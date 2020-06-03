@@ -1,0 +1,190 @@
+<h2 class="mat-h2 condition-title">
+  [{{ dashboard.product.channel.title }}] {{ dashboard.product.title }}
+</h2>
+
+<div fxLayout="row wrap" fxLayoutAlign="space-around"
+  [ngStyle.xs]="{ fontSize: '87.5%' }" class="condition-numbers">
+  <div fxFlex="33.33%" fxFlex.lt-md="50%">
+    <div class="number-card" fxLayout="column">
+      <div fxFlex="auto">
+        <h3 class="mat-h2">RECO 가입 건수</h3>
+        <div class="gray">
+          <table>
+            <tbody>
+              <tr>
+                <th>전체 추천수</th><td>{{ dashboard.Table.CountReco | number }}건</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div fxFlex="none">
+        <div class="emphasizing"
+          [ngClass]="{ minus: dashboard.Table.CountContributeSubscribeByReco < 0, plus: dashboard.Table.CountContributeSubscribeByReco > 0 }">
+          {{ dashboard.Table.CountContributeSubscribeByReco | number }}건
+          <mat-icon *ngIf="dashboard.Table.CountContributeSubscribeByReco < 0">trending_down</mat-icon>
+          <mat-icon *ngIf="dashboard.Table.CountContributeSubscribeByReco > 0">trending_up</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex="33.33%" fxFlex.lt-md="50%">
+    <div class="number-card" fxLayout="column">
+      <div fxFlex="auto">
+        <h3 class="mat-h2">
+          RECO 가입 기여율
+          <button mat-icon-button
+            [matTooltip]="TOOLTIP_CONTRIBUTE_RATIO" #contributeRatioTooltip="matTooltip" matTooltipClass="tooltip-pre"
+            (click)="contributeRatioTooltip.toggle()">
+            <mat-icon>help_outline</mat-icon>
+          </button>
+        </h3>
+        <div class="gray">
+          <table>
+            <tbody>
+              <tr>
+                <th>RECO 가입률</th><td>{{ dashboard.Table.RateSubscribeByReco | number }}%</td>
+              </tr>
+              <tr>
+                <th>Base 가입률</th><td>{{ dashboard.Table.RateSubscribeByBase | number }}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div fxFlex="none">
+        <div class="emphasizing"
+          [ngClass]="{ minus: dashboard.Table.RateContributeSubscribeByReco < 0, plus: dashboard.Table.RateContributeSubscribeByReco > 0 }">
+          {{ dashboard.Table.RateContributeSubscribeByReco | number }}%
+          <mat-icon *ngIf="dashboard.Table.RateContributeSubscribeByReco < 0">trending_down</mat-icon>
+          <mat-icon *ngIf="dashboard.Table.RateContributeSubscribeByReco > 0">trending_up</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex="33.33%" fxFlex.lt-md="100%">
+    <div class="number-card" fxLayout="column">
+      <div fxFlex="auto">
+        <h3 class="mat-h2">
+          LTV 기여분
+          <button mat-icon-button
+            [matTooltip]="TOOLTIP_LTV" #ltvTooltip="matTooltip" matTooltipClass="tooltip-pre"
+            (click)="ltvTooltip.toggle()">
+            <mat-icon>help_outline</mat-icon>
+          </button>
+        </h3>
+        <div class="gray">
+          <table>
+            <tbody>
+              <tr>
+                <th>월매출</th><td>{{ dashboard.Table.SalesMonthSubscribe | number }}원</td>
+              </tr>
+              <tr>
+                <th>기대가입일</th><td>{{ dashboard.Table.CountDayExpectSubscribe }}일</td>
+              </tr>
+              <tr>
+                <th>객단가</th><td>{{ dashboard.Table.CustomerTransactionSubscribe | number }}원</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div fxFlex="none">
+        <div class="emphasizing"
+          [ngClass]="{ minus: dashboard.Table.ValueContributeLTV < 0, plus: dashboard.Table.ValueContributeLTV > 0 }">
+          {{ dashboard.Table.ValueContributeLTV | number:'1.0-0' }}원
+          <mat-icon *ngIf="dashboard.Table.ValueContributeLTV < 0">trending_down</mat-icon>
+          <mat-icon *ngIf="dashboard.Table.ValueContributeLTV > 0">trending_up</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-grid-list [cols]="(gridLayout$ | async).cols">
+  <mat-grid-tile *ngFor="let item of (gridLayout$ | async)?.layout; trackBy: chartsTrackBy"
+    [rowspan]="item.rowspan">
+    <ng-container [ngSwitch]="item.type">
+      <mat-card fxLayout="column" *ngSwitchCase="'Counts.CountReco'">
+        <mat-card-header fxFlex="none" fxLayout fxLayoutAlign="space-between center">
+          <mat-card-title>추천건수 (건)</mat-card-title>
+          <mat-form-field>
+            <mat-select #countsCountPeriod value="Daily">
+              <mat-option value="Daily">일단위</mat-option>
+              <mat-option value="Weekly">주단위</mat-option>
+              <mat-option value="Monthly">월단위</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <mat-card-content fxFlex="auto">
+          <div echarts [initOpts]="ECHARTS_INIT_OPTS" [theme]="ECHARTS_THEME" [options]="dashboard.Counts[countsCountPeriod.value].CountReco" class="fill-height"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card fxLayout="column" *ngSwitchCase="'Counts.RateReco'">
+        <mat-card-header fxFlex="none" fxLayout fxLayoutAlign="space-between center">
+          <mat-card-title>추천비율 (%)</mat-card-title>
+          <mat-form-field>
+            <mat-select #countsRatioPeriod value="Daily">
+              <mat-option value="Daily">일단위</mat-option>
+              <mat-option value="Weekly">주단위</mat-option>
+              <mat-option value="Monthly">월단위</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <mat-card-content fxFlex="auto">
+          <div echarts [initOpts]="ECHARTS_INIT_OPTS" [theme]="ECHARTS_THEME" [options]="dashboard.Counts[countsRatioPeriod.value].RateReco" class="fill-height"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card fxLayout="column" *ngSwitchCase="'Counts.RateSubscribe'">
+        <mat-card-header fxFlex="none" fxLayout fxLayoutAlign="space-between center">
+          <mat-card-title>추천 대비 가입률 (%)</mat-card-title>
+          <mat-form-field>
+            <mat-select #countsScrbRatioPeriod value="Daily">
+              <mat-option value="Daily">일단위</mat-option>
+              <mat-option value="Weekly">주단위</mat-option>
+              <mat-option value="Monthly">월단위</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <mat-card-content fxFlex="auto">
+          <div echarts [initOpts]="ECHARTS_INIT_OPTS" [theme]="ECHARTS_THEME" [options]="dashboard.Counts[countsScrbRatioPeriod.value].RateSubscribe" class="fill-height"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card fxLayout="column" *ngSwitchCase="'RateDiffSubscribe'">
+        <mat-card-header fxFlex="none" fxLayout fxLayoutAlign="space-between center">
+          <mat-card-title>가입 기여분</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="auto" fxLayout>
+          <div fxFlex="auto" class="fill-height">
+            <div echarts [initOpts]="ECHARTS_INIT_OPTS" [options]="dashboard.RateDiffSubscribe" class="fill-height"></div>
+          </div>
+          <div fxFlex="none" fxFlexAlign="center">
+            <table>
+              <tbody>
+                <tr *ngFor="let value of BOXPLOT_VALUES">
+                  <th>{{ value.label }}</th>
+                  <td>{{ dashboard.RateDiffSubscribe.series[0].data[0][value.index] | number:'1.0-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card fxLayout="column" *ngSwitchCase="'RateSurvival'">
+        <mat-card-header fxFlex="none" fxLayout fxLayoutAlign="space-between center">
+          <mat-card-title>Retention</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="auto" fxLayout="column">
+          <div echarts [initOpts]="ECHARTS_INIT_OPTS" [theme]="ECHARTS_THEME" [options]="dashboard.RateSurvival.all" fxFlex="50%"></div>
+          <div echarts [initOpts]="ECHARTS_INIT_OPTS" [theme]="ECHARTS_THEME" [options]="dashboard.RateSurvival.buckets" fxFlex="50%"></div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </mat-grid-tile>
+</mat-grid-list>

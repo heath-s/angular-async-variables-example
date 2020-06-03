@@ -1,0 +1,30 @@
+$grid-gap: 12px;
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  max-width: 360px;
+  width: 100%;
+}
+
+.content {
+  padding: $grid-gap;
+}
+
+.filter-label {
+  border-bottom: 1px solid #cfcfcf;
+  margin-bottom: $grid-gap;
+  padding-bottom: $grid-gap;
+
+  ngx-skeleton-loader {
+    margin-bottom: 0;
+    width: 100%;
+  }
+}
+
+.progress-bar {
+  height: 4px;
+  margin: $grid-gap 0;
+}

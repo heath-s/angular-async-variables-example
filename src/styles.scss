@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import "~@angular/material/theming";
+@import "styles/mixins.scss";
+@import "styles/theme.scss";
+@include angular-material-theme($app-theme);
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+mat-sidenav-container {
+  height: 0;
+}
+
+.mat-option {
+  font-size: inherit !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-ellipsis {
+  @include text-ellipsis;
+}
+
+.tooltip-pre {
+  white-space: pre-line;
+}
+
+@import "~jsoneditor/dist/jsoneditor.min.css";

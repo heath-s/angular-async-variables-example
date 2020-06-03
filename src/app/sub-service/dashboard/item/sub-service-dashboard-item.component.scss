@@ -1,0 +1,110 @@
+@import "../../../../styles/theme";
+
+$grid-gap: 12px;
+
+.condition-title {
+  background-color: mat-color(map-get($app-theme, background), background);
+  margin: 2px 0;
+  padding: 8px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.condition-numbers {
+  > div {
+    padding: ($grid-gap / 2);
+
+    .number-card {
+      @include mat-elevation(1);
+
+      background-color: #ffffff;
+      border-radius: 8px;
+      height: 100%;
+      padding: $grid-gap;
+      width: 100%;
+    }
+  }
+
+  table {
+    border-spacing: 4px;
+
+    th {
+      font-weight: 400;
+      text-align: right;
+    }
+
+    td {
+      font-weight: 700;
+    }
+  }
+
+  .emphasizing {
+    font-size: 200%;
+    font-weight: 700;
+    margin: 8px 0;
+    text-align: right;
+
+    &.minus {
+      color: mat-color($app-primary);
+    }
+
+    &.plus {
+      color: mat-color($app-accent);
+    }
+  }
+
+  .gray {
+    color: #888888;
+  }
+}
+
+mat-grid-list {
+  margin-top: $grid-gap;
+
+  mat-grid-tile {
+    mat-card {
+      bottom: ($grid-gap / 2);
+      left: ($grid-gap / 2);
+      position: absolute;
+      right: ($grid-gap / 2);
+      top: ($grid-gap / 2);
+
+      mat-card-header {
+        border-bottom: 1px solid #cfcfcf;
+        height: 62px;
+        margin-bottom: ($grid-gap / 2);
+        padding-bottom: ($grid-gap / 2);
+
+        mat-card-title {
+          margin-bottom: 0;
+        }
+
+        mat-form-field {
+          width: 74px;
+        }
+      }
+
+      mat-card-content {
+        height: 0;
+
+        .fill-height {
+          height: 100%;
+        }
+
+        table {
+          border-spacing: 4px;
+
+          th {
+            font-weight: 400;
+            text-align: right;
+          }
+
+          td {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}

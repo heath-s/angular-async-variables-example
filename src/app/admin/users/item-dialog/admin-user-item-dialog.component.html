@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>사용자 {{ isNewUser ? '추가' : '수정' }}</h2>
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+  <mat-dialog-content>
+    <div fxLayout="row wrap">
+      <div fxFlex="100%" fxLayout fxLayout.xs="column" fxLayoutGap="8px">
+        <mat-form-field fxFlex.gt-xs="50%">
+          <mat-label>Username</mat-label>
+          <input type="text" matInput formControlName="username" [readonly]="!isNewUser">
+        </mat-form-field>
+
+        <mat-form-field fxFlex.gt-xs="50%">
+          <mat-label>Nickname</mat-label>
+          <input type="text" matInput formControlName="nickname">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field fxFlex="100%">
+        <mat-label>Roles</mat-label>
+        <mat-chip-list #roleList>
+          <mat-chip *ngFor="let role of userForm.get('roles').value" (removed)="removeRole(role)">
+            {{ role }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="새로운 Role..."
+            [matChipInputFor]="roleList"
+            [matChipInputSeparatorKeyCodes]="SEPARATOR_KEY_CODES"
+            (matChipInputTokenEnd)="addRole($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+      <div fxFlex="100%" fxLayout fxLayoutGap="8px">
+        <mat-checkbox *ngIf="!isNewUser" (change)="onChangePasswordCheckbox($event)" [disabled]="loading$ | async"
+          fxFlex="none" fxFlexAlign="center">비밀번호 변경</mat-checkbox>
+        <mat-form-field fxFlex="auto">
+          <mat-label>Password</mat-label>
+          <input type="text" matInput formControlName="password">
+          <mat-hint *ngIf="!isNewUser">변경하려고 할 때만 입력하십시오.</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <mat-progress-bar mode="indeterminate" *ngIf="loading$ | async"></mat-progress-bar>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" *ngIf="!isNewUser" (click)="deleteItem()" color="accent" class="button-delete">제거</button>
+
+    <button mat-button type="button" mat-dialog-close>닫기</button>
+    <button mat-flat-button type="submit" [disabled]="userForm.invalid || (loading$ | async)" color="primary">저장</button>
+  </mat-dialog-actions>
+</form>

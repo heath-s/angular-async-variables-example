@@ -1,0 +1,25 @@
+<div fxLayout="column" class="sidenav-container">
+  <div>
+    <mat-toolbar fxLayout color="primary" class="topbar">
+      <span class="title">SubService</span>
+
+      <a mat-icon-button routerLink="/home" class="more-button">
+        <mat-icon>home</mat-icon>
+      </a>
+
+      <button mat-button [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+        <mat-icon>account_circle</mat-icon>
+        {{ (session$ | async)?.nickname }}
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="signout()">로그아웃</button>
+      </mat-menu>
+    </mat-toolbar>
+  </div>
+
+  <mat-sidenav-container fxFlex="auto">
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

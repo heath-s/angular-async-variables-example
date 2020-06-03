@@ -1,0 +1,56 @@
+<div class="content">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-h2">사용자</h2>
+        <div class="action-buttons">
+          <button type="button" mat-icon-button (click)="addItem()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button type="button" mat-icon-button (click)="load$.next()" [disabled]="loading$ | async">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="progress-bar">
+        <mat-progress-bar mode="indeterminate" *ngIf="loading$ | async"></mat-progress-bar>
+      </div>
+
+      <div class="table-container">
+        <mat-table [dataSource]="(list$ | async)?.data">
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.username }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nickname">
+            <mat-header-cell *matHeaderCellDef>Nickname</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.nickname }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roles">
+            <mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <div class="text-ellipsis">{{ row.roles.join(', ') }}</div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button type="button" mat-icon-button (click)="editItem(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="COLUMNS"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: COLUMNS;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

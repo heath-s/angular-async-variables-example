@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer mode="over" [opened]="true" class="sidenav">
+    <app-sub-service-filter
+      [filter$]="filter$"
+      [loading$]="loading$"
+      (filterClose)="onFilterClose()"></app-sub-service-filter>
+  </mat-sidenav>
+
+  <mat-sidenav-content fxLayout="column">
+    <div class="content">
+      <div fxLayout fxLayout.xs="column" fxLayoutGap="12px" class="filter-label">
+        <button type="button" mat-stroked-button fxFlex="none" (click)="drawer.open()" color="primary">
+          <mat-icon>dashboard</mat-icon>
+          데이터 선택
+        </button>
+
+        <ngx-skeleton-loader *ngIf="loading$ | async"
+          fxFlex="auto" fxFlexAlign="center"
+          [theme]="{ margin: 0, 'vertical-align': 'middle' }"></ngx-skeleton-loader>
+        <mat-chip-list *ngIf="!(loading$ | async)">
+          <div fxFlex="auto" fxFlexAlign="center" fxLayout="row wrap" fxLayout.xs="column">
+            <mat-chip *ngIf="dashboardDrawn$ | async" selected fxFlex="none" color="accent">
+              기간: {{ getFormattedDate((dashboardDrawn$ | async)[0].from) }} ~ {{ getFormattedDate((dashboardDrawn$ | async)[0].to) }}
+            </mat-chip>
+            <mat-chip *ngFor="let item of dashboardDrawn$ | async" fxFlex="none">
+              [{{ item.product.channel.title }}] {{ item.product.title }}
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+      </div>
+
+      <div *ngIf="loading$ | async" class="progress-bar">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+
+      <ng-container *ngIf="!(loading$ | async) && (dashboardDrawn$ | async)">
+        <app-sub-service-dashboard-item
+          *ngFor="let dashboard of (dashboardDrawn$ | async)"
+          [dashboard]="dashboard">
+        </app-sub-service-dashboard-item>
+      </ng-container>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,38 @@
+@import "../../../styles/mixins.scss";
+
+.content {
+  padding: 8px;
+
+  .progress-bar {
+    height: 4px;
+  }
+
+  mat-card-header {
+    position: relative;
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    .action-buttons {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+    white-space: nowrap;
+
+    mat-header-cell {
+      mat-form-field {
+        max-width: 75%;
+      }
+    }
+
+    .mat-column-actions {
+      max-width: 40px;
+    }
+  }
+}

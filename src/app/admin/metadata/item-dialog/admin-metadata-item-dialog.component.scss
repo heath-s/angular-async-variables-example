@@ -1,0 +1,22 @@
+mat-dialog-content {
+  max-width: 480px;
+
+  .progress-bar {
+    height: 4px;
+    margin-top: 16px;
+  }
+
+  mat-form-field {
+    min-width: 0;
+  }
+
+  .mat-h4 {
+    margin-bottom: 0;
+  }
+}
+
+mat-dialog-actions {
+  .button-delete {
+    margin-right: auto;
+  }
+}

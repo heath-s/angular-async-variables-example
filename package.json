@@ -1,0 +1,48 @@
+{
+  "name": "angular-async-variables-example",
+  "version": "0.0.0",
+  "author": "신희성 <5037055+lumiere0b@users.noreply.github.com>",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "lint": "ng lint"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~9.1.0",
+    "@angular/cdk": "^9.2.0",
+    "@angular/common": "~9.1.0",
+    "@angular/compiler": "~9.1.0",
+    "@angular/core": "~9.1.0",
+    "@angular/flex-layout": "^9.0.0-beta.29",
+    "@angular/forms": "~9.1.0",
+    "@angular/material": "^9.2.0",
+    "@angular/platform-browser": "~9.1.0",
+    "@angular/platform-browser-dynamic": "~9.1.0",
+    "@angular/router": "~9.1.0",
+    "@auth0/angular-jwt": "^4.0.0",
+    "ang-jsoneditor": "^1.9.1",
+    "date-fns": "^2.11.1",
+    "echarts": "^4.6.0",
+    "jsoneditor": "^8.6.1",
+    "ngx-echarts": "^4.2.2",
+    "ngx-skeleton-loader": "^1.2.6",
+    "qs": "^6.9.1",
+    "rxjs": "~6.5.4",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.900.7",
+    "@angular/cli": "~9.1.0",
+    "@angular/compiler-cli": "~9.1.0",
+    "@angular/language-service": "~9.1.0",
+    "@types/echarts": "^4.4.3",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^5.1.2",
+    "ts-node": "~8.3.0",
+    "tslint": "~5.18.0",
+    "typescript": "~3.7.5"
+  }
+}

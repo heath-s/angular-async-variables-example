@@ -1,0 +1,35 @@
+<form [formGroup]="signinForm" (ngSubmit)="onSubmit()" novalidate fxLayout fxLayoutAlign="center center">
+  <mat-card class="signin-card">
+    <mat-card-header fxLayout>
+      <mat-card-title fxFlex fxFlexAlign="center">Example 로그인</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayoutGap="8px grid">
+        <mat-form-field fxFlex="50%" fxFlex.lt-sm="100%">
+          <mat-label>아이디</mat-label>
+          <input type="text" matInput formControlName="username">
+          <mat-error *ngIf="signinForm.get('username').hasError('required')">
+            아이디를 입력하십시오.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-sm="100%">
+          <mat-label>비밀번호</mat-label>
+          <input type="password" matInput formControlName="password">
+          <mat-error *ngIf="signinForm.get('password').hasError('required')">
+            비밀번호를 입력하십시오.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="progress-bar">
+        <mat-progress-bar mode="indeterminate" *ngIf="loading$ | async"></mat-progress-bar>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button type="submit" mat-button color="primary" [disabled]="signinForm.invalid || (loading$ | async)">로그인</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

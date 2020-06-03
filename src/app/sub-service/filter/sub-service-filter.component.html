@@ -1,0 +1,90 @@
+<div class="content">
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" novalidate fxLayout="column" fxLayoutGap="8px">
+    <div fxLayout fxLayoutAlign="space-between">
+      <h2 fxFlexAlign="center" class="mat-h2">데이터 선택</h2>
+
+      <button fxFlex="none" type="button" mat-icon-button (click)="filterClose.emit()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div fxLayout fxLayoutGap="4px grid" class="period-selector">
+      <mat-form-field fxFlex="33.3%" appearance="standard">
+        <mat-label>시작일</mat-label>
+        <input matInput formControlName="from" [matDatepicker]="pickerFrom" [max]="filterForm.get('to').value" required readonly>
+        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33.3%" appearance="standard">
+        <mat-label>종료일</mat-label>
+        <input matInput formControlName="to" [matDatepicker]="pickerTo" [max]="DATE_MAX" required readonly>
+        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo></mat-datepicker>
+      </mat-form-field>
+
+      <div fxFlex="none" fxFlexAlign="center" class="period-menu">
+        <button type="button" mat-flat-button [matMenuTriggerFor]="menuPeriod" [disabled]="(loading$ | async)">기간 설정</button>
+        <mat-menu #menuPeriod="matMenu">
+          <button type="button" mat-menu-item (click)="setPeriod(30)">1개월</button>
+          <button type="button" mat-menu-item (click)="setPeriod(91)">3개월</button>
+          <button type="button" mat-menu-item (click)="setPeriod(183)">6개월</button>
+          <button type="button" mat-menu-item (click)="setPeriod(365)">1년</button>
+          <button type="button" mat-menu-item (click)="setPeriod(548)">1½년</button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <div fxLayout fxLayoutGap="8px">
+      <div fxFlex="auto" fxLayout="column" fxLayoutGap="4px">
+        <mat-form-field appearance="legacy">
+          <mat-label>{{ (channels$ | async) === null ? '로딩중' : '채널' }}</mat-label>
+          <mat-select [value]="channel$ | async"
+            (selectionChange)="selectChannel($event.value)"
+            [disabled]="(channels$ | async) === null">
+            <mat-option *ngFor="let channel of channels$ | async" [value]="channel">{{ channel.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <mat-label>{{ (channel$ | async) !== null && (categories$ | async) === null ? '로딩중' : '분류' }}</mat-label>
+          <mat-select [value]="category$ | async"
+            (selectionChange)="selectCategory($event.value)"
+            [disabled]="(categories$ | async) === null">
+            <mat-option *ngFor="let category of categories$ | async" [value]="category">{{ category.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <mat-label>{{ (category$ | async) !== null && (products$ | async) === null ? '로딩중' : '상품' }}</mat-label>
+          <mat-select [value]="product$ | async"
+            (selectionChange)="selectProduct($event.value)"
+            [disabled]="(products$ | async) === null">
+            <mat-option *ngFor="let product of products$ | async" [value]="product">{{ product.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="none" fxFlexAlign="center">
+        <button type="button" mat-flat-button (click)="addCondition()" [disabled]="!(product$ | async) || (loading$ | async)" color="primary">추가</button>
+      </div>
+    </div>
+
+    <div fxLayout>
+      <button type="submit" mat-flat-button fxFlex="100%" color="primary" [disabled]="filterForm.invalid || (loading$ | async)">조회</button>
+    </div>
+
+    <div class="condition-list">
+      <mat-chip-list>
+        <div fxFlex="auto" fxLayout="column">
+          <mat-chip *ngFor="let item of conditions$ | async; let index=index"
+            fxFlex
+            (removed)="onConditionRemoved(item)">
+            [{{ item.channel.title }}] {{ item.product.title }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </div>
+      </mat-chip-list>
+    </div>
+  </form>
+</div>

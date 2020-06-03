@@ -1,0 +1,29 @@
+@import "../../styles/theme";
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  max-width: 200px;
+  width: 100%;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+
+  .active {
+    background-color: mat-color($app-primary);
+    color: mat-color($app-primary, default-contrast);
+  }
+}
+
+.topbar {
+  .title {
+    margin-left: 8px;
+  }
+
+  .more-button {
+    margin-left: auto;
+  }
+}
